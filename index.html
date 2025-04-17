@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elna's Store - Purified Ice Cube</title>
+    <style>
+      
+      html { font-size: 120%; } /* Uncomment this line if you want 1rem = 10px */
+      
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 1rem;
+            background-color: #f5f7fa;
+            color: #333;
+            max-width: 100%;
+            overflow-x: hidden;
+            font-size: 1rem;
+        }
+        
+        .store-header {
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+        
+        .store-name {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-name {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 1.2rem;
+        }
+        
+        .product-option {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.2rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .reset-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .reset-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .product-image {
+            width: 6rem;
+            height: 6rem;
+            background-color: #ecf0f1;
+            border-radius: 0.75rem;
+            margin-right: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-details {
+            flex-grow: 1;
+        }
+        
+        .product-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 0.6rem;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 0.8rem;
+        }
+        
+        .quantity-btn {
+            width: 2.8rem;
+            height: 2.8rem;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .quantity-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        
+        .quantity-display {
+            margin: 0 1.2rem;
+            font-size: 2rem;
+            min-width: 2.5rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .total-amount {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 1.8rem;
+        }
+        
+        .total-label {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.4rem;
+            color: #ecf0f1;
+        }
+        
+        .total-value {
+            font-size: 3.5rem;
+            color: #f1c40f;
+        }
+    </style>
+</head>
+<body>
+    <div class="store-header">
+        <div class="store-name">Elna's Store</div>
+        <div class="product-name">Purified Ice Cube</div>
+    </div>
+    
+    <div class="product-option">
+        <button class="reset-btn" data-option="6pcs">Reset</button>
+        <div class="product-image">
+            <img src="Ice6.png" alt="6 pieces Purified Ice Tube">
+        </div>
+        <div class="product-details">
+            <div class="product-title">6 pieces</div>
+            <div class="quantity-controls">
+                <button class="quantity-btn minus-btn" data-option="6pcs" disabled>-</button>
+                <div class="quantity-display" id="quantity-6pcs">0</div>
+                <button class="quantity-btn plus-btn" data-option="6pcs">+</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="product-option">
+        <button class="reset-btn" data-option="8pcs">Reset</button>
+        <div class="product-image">
+            <img src="Ice8.png" alt="8 pieces Purified Ice Tube">
+        </div>
+        <div class="product-details">
+            <div class="product-title">8 pieces</div>
+            <div class="quantity-controls">
+                <button class="quantity-btn minus-btn" data-option="8pcs" disabled>-</button>
+                <div class="quantity-display" id="quantity-8pcs">0</div>
+                <button class="quantity-btn plus-btn" data-option="8pcs">+</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="total-amount">
+        <span class="total-label">AMOUNT:</span>
+        <span class="total-value" id="total-amount">0</span> Pesos
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantities = {
+                '6pcs': 0,
+                '8pcs': 0
+            };
+            
+            // Calculate price for 6pcs bundles
+            function calculate6pcsPrice(qty) {
+                if (qty === 0) return 0;
+                if (qty === 1) return 5;
+                if (qty === 2) return 9;
+                if (qty === 3) return 14;
+                if (qty === 4) return 18;
+                let price = 18;
+                for (let i = 5; i <= qty; i++) {
+                    price += (i % 2 !== 0) ? 5 : 4;
+                }
+                return price;
+            }
+            
+            // Calculate price for 8pcs bundles
+            function calculate8pcsPrice(qty) {
+                if (qty === 0) return 0;
+                return qty * 6;
+            }
+            
+            function updateTotal() {
+                const qty6 = quantities['6pcs'];
+                const qty8 = quantities['8pcs'];
+                
+                const price6 = calculate6pcsPrice(qty6);
+                const price8 = calculate8pcsPrice(qty8);
+                
+                const total = price6 + price8;
+                
+                document.getElementById('total-amount').textContent = total;
+            }
+            
+            function updateQuantity(option, change) {
+                const newQty = quantities[option] + change;
+                if (newQty >= 0) {
+                    quantities[option] = newQty;
+                    document.getElementById(`quantity-${option}`).textContent = newQty;
+                    
+                    const minusBtn = document.querySelector(`.minus-btn[data-option="${option}"]`);
+                    minusBtn.disabled = newQty === 0;
+                    
+                    updateTotal();
+                }
+            }
+            
+            function resetQuantity(option) {
+                quantities[option] = 0;
+                document.getElementById(`quantity-${option}`).textContent = '0';
+                
+                const minusBtn = document.querySelector(`.minus-btn[data-option="${option}"]`);
+                minusBtn.disabled = true;
+                
+                updateTotal();
+            }
+            
+            // Add event listeners to all plus and minus buttons
+            document.querySelectorAll('.plus-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const option = this.getAttribute('data-option');
+                    updateQuantity(option, 1);
+                });
+            });
+            
+            document.querySelectorAll('.minus-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const option = this.getAttribute('data-option');
+                    updateQuantity(option, -1);
+                });
+            });
+            
+            // Add event listeners to reset buttons
+            document.querySelectorAll('.reset-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const option = this.getAttribute('data-option');
+                    resetQuantity(option);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

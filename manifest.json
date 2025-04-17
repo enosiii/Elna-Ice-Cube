@@ -1,1 +1,23 @@
-
+{
+    "id": "/ElnaIceStore/",
+    "short_name": "Elna's Ice Store",
+    "name": "Elna's Ice Store - Purified Ice Cube",
+    "description": "Ice Cube Calculator",
+    "icons": [
+      {
+        "src": "Ice192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "Ice512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/ElnaIceStore/index.html",
+    "background_color": "#f9f9f9",
+    "display": "standalone",
+    "scope": "/ElnaIceStore/",
+    "theme_color": "#007bff"
+}

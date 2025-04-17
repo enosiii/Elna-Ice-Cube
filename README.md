@@ -1,2 +1,3 @@
-# Elna-Ice-Cube
-Elna Ice Cube
+# Elna's Ice Store
+Elna's Ice Store
+Purified Ice Cube

@@ -4,10 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="192x192" href="Ice192.png">
+    <link rel="manifest" href="manifest.json">
     <title>Elna's Ice Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
       
-      html { font-size: 120%; } /* Uncomment this line if you want 1rem = 10px */
+        :root {
+            --primary-color: #3498db;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --accent-color: #f72585;
+            --accent-hover: #e5177d;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-color: #dee2e6;
+            --success-color: #4cc9f0;
+            --warning-color: #f8961e;
+        }
+      
+        html { font-size: 120%; } /* Uncomment this line if you want 1rem = 10px */
       
         * {
             box-sizing: border-box;
@@ -155,7 +173,59 @@
         .total-value {
             font-size: 3.5rem;
             color: #f1c40f;
+      }
+      
+
+
+        
+    .install-container {
+            text-align: center;
+            margin-top: 2rem;
         }
+        
+        #installPWA {
+            padding: 15px 30px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+            align-items: center;
+
+            /* UNCOMMENT FOR TESTING WHEN USING BLOCK , COMMENT WHEN USING INLINE-FLEX      
+            width: 300px;
+            margin-left: 50%;
+            transform: translateX(-150px); */
+      
+        }
+        
+        #installPWA i {
+            margin-right: 10px;
+        }
+        
+        #installPWA:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+
+            /* UNCOMMENT FOR TESTING WHEN USING BLOCK , COMMENT WHEN USING INLINE-FLEX
+            width: 300px;
+            margin-left: 50%;
+            transform: translateX(-150px); */
+        }
+        
+        #installPWA:active {
+            transform: translateY(0);
+        }
+
+        
+
     </style>
 </head>
 <body>
@@ -198,6 +268,12 @@
     <div class="total-amount">
         <span class="total-label">AMOUNT:</span>
         <span class="total-value" id="total-amount">0</span> Pesos
+    </div>
+      
+    <div class="install-container">
+        <button id="installPWA" style="display: none;" >
+            <i class="fas fa-download"></i>Install App
+        </button>
     </div>
 
     <script>
@@ -286,5 +362,17 @@
             });
         });
     </script>
+    <script src="install.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then((registration) => {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch((error) => {
+          console.error('Service Worker registration failed:', error);
+        });
+    }
+  </script>
 </body>
 </html>
